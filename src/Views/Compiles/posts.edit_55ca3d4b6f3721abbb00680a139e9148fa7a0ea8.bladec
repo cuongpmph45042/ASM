@@ -1,0 +1,76 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('title'); ?>
+ Sửa bài viết
+<?php $this->stopSection(); ?>
+
+<?php $this->startSection('content'); ?>
+ <?php if(!empty($_SESSION['errors'])): ?>
+ <div class="alert alert-warning">
+ <ul>
+ <?php $__currentLoopData = $_SESSION['errors']; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $error): $loop = $this->incrementLoopIndices();  ?>
+ <li><?php echo \htmlentities($error??'', ENT_QUOTES, 'UTF-8', false); ?></li>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </ul>
+ </div>
+ <?php 
+ unset($_SESSION['errors']);
+ ?>
+ <?php endif; ?>
+
+ <?php if(isset($_SESSION['status']) && $_SESSION['status']): ?>
+ <div class="alert alert-success"><?php echo \htmlentities($_SESSION['msg']??'', ENT_QUOTES, 'UTF-8', false); ?></div>
+
+ <?php 
+ unset($_SESSION['status']);
+ unset($_SESSION['msg']);
+ ?>
+ <?php endif; ?>
+
+ <form action="<?php echo \htmlentities(url("admin/posts/update/{$post['id']}")??'', ENT_QUOTES, 'UTF-8', false); ?>" method="post" enctype="multipart/form-data">
+ <div class="row bg-white">
+ <div class="col-md-6">
+ <div class="mb-3 mt-3">
+ <label for="id_categories" class="form-label"><b>Danh mục:</b></label>
+
+ <select class="form-select" name="id_categories" id="id_categories">
+ <?php $__currentLoopData = $categoryList; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $id => $name): $loop = $this->incrementLoopIndices();  ?>
+ <option value="<?php echo \htmlentities($id??'', ENT_QUOTES, 'UTF-8', false); ?>" <?php if($id == $post['id_categories']): ?> selected <?php endif; ?>>
+ <?php echo \htmlentities($name??'', ENT_QUOTES, 'UTF-8', false); ?> </option>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </select>
+ </div>
+
+ <div class="mb-3 mt-3">
+ <label for="image" class="form-label"><b>Ảnh:</b></label>
+
+ <input type="file" class="form-control" name="image" id="image">
+ <img src="<?php echo \htmlentities(asset($post['image'])??'', ENT_QUOTES, 'UTF-8', false); ?>" width="100px" class="mt-2" alt="">
+
+ </div>
+ </div>
+
+ <div class="col-md-6">
+ <div class="mb-3 mt-3">
+ <label for="title" class="form-label"><b>Tiêu đề:</b></label>
+
+ <input type="text" class="form-control" name="title" id="name" placeholder="Tiêu đề bài viết"
+ value="<?php echo \htmlentities($post['title']??'', ENT_QUOTES, 'UTF-8', false); ?>">
+ </div>
+
+ <div class="mb-3 mt-3">
+ <label for="contents" class="form-label"><b>Nội dung</b></label>
+
+ <textarea class="form-control" name="contents" id="contents" cols="30" rows="5"
+ placeholder="Nội dung bài viết"><?php echo \htmlentities($post['contents']??'', ENT_QUOTES, 'UTF-8', false); ?></textarea>
+ </div>
+ </div>
+ </div>
+
+ <button type="submit" class="btn btn-primary rounded-pill mt-2">Sửa</button>
+ </form>
+<?php $this->stopSection(); ?>
+
+<?php if (isset($_shouldextend[1])) { echo $this->runChild('layouts.master'); } ?>

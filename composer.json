@@ -1,0 +1,24 @@
+{
+    "name": "manhcuong/asm",
+    "autoload": {
+        "psr-4": {
+            "Manhcuong\\Asm\\": "src/"
+        },
+        "files": [
+            "helper.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "cuongpmph45042",
+            "email": "cuongpmph45042@fpt.edu.vn"
+        }
+    ],
+    "require": {
+        "bramus/router": "^1.6",
+        "vlucas/phpdotenv": "^5.6",
+        "doctrine/dbal": "^4.0",
+        "eftec/bladeone": "^4.13",
+        "rakit/validation": "^1.4"
+    }
+}

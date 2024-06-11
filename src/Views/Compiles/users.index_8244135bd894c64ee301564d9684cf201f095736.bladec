@@ -1,0 +1,58 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('title'); ?>
+ Người dùng
+<?php $this->stopSection(); ?>
+
+<?php $this->startSection('content'); ?>
+ <a href="<?php echo \htmlentities(url('admin/users/create')??'', ENT_QUOTES, 'UTF-8', false); ?>" class="btn btn-primary mb-2">Thêm</a>
+ <?php if(isset($_SESSION['status']) && $_SESSION['status']): ?>
+ <div class="alert alert-success">
+ <?php echo \htmlentities($_SESSION['msg']??'', ENT_QUOTES, 'UTF-8', false); ?>
+
+ </div>
+
+ <?php 
+ unset($_SESSION['status']);
+ unset($_SESSION['msg']);
+ ?>
+ <?php endif; ?>
+ <table class="table table-striped table-light">
+ <thead>
+ <tr>
+ <th>ID</th>
+ <th>Avatar</th>
+ <th>Name</th>
+ <th>Email</th>
+ <th>Type</th>
+ <th>Created At</th>
+ <th>Update At</th>
+ <th>Action</th>
+ </tr>
+ </thead>
+ <tbody>
+ <?php $__currentLoopData = $users; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $user): $loop = $this->incrementLoopIndices();  ?>
+ <tr>
+ <td><?php echo \htmlentities($user['id']??'', ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td><?php echo \htmlentities($user['avatar']??'', ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td><?php echo \htmlentities($user['name']??'', ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td><?php echo \htmlentities($user['email']??'', ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td><?php echo \htmlentities($user['type']??'', ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td><?php echo \htmlentities($user['created_at']??'', ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td><?php echo \htmlentities($user['update_at']??'', ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td>
+ <?php if($user['type'] == 'admin'): ?>
+ <a onclick="return confirm('Xác nhận hạ quyền xuống member!')" href="<?php echo \htmlentities(url("admin/users/type/member/{$user['id']}")??'', ENT_QUOTES, 'UTF-8', false); ?>" class="btn-sm btn-primary">Hạ quyền</a>
+ <?php else: ?>
+ <a onclick="return confirm('Xác nhận cấp quyền lên admin!')" href="<?php echo \htmlentities(url("admin/users/type/admin/{$user['id']}")??'', ENT_QUOTES, 'UTF-8', false); ?>" class="btn-sm btn-success">Cấp quyền</a>
+ <?php endif; ?>
+ <a onclick="return confirm('Xác nhận xóa!')" href="<?php echo \htmlentities(url("admin/users/delete/{$user['id']}")??'', ENT_QUOTES, 'UTF-8', false); ?>" class="btn-sm btn-danger">Xóa</a>
+ </td>
+ </tr>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </tbody>
+ </table>
+<?php $this->stopSection(); ?>
+
+<?php if (isset($_shouldextend[1])) { echo $this->runChild('layouts.master'); } ?>
